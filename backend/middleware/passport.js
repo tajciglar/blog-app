@@ -1,7 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
-const db = require('../db/pool'); 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient()
 
 passport.serializeUser((user, done) => {
     done(null, user.user_id);
