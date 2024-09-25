@@ -4,8 +4,6 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: '',
-    confirm_password: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -43,20 +41,20 @@ const Signup = () => {
           body: JSON.stringify(formData),
         });
         console.log(response)
-        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setErrors(data.errors)
+        setFormData(data.formData);
         
-        // Handle successful submission
-        console.log('Form submitted:', formData);
-        setFormData({ username: '', email: '', password: '' });
       } catch (error) {
         console.error('Submission error:', error);
-      } finally {
+      } finally { 
         setIsSubmitting(false);
       }
     }
   };
 
   return (
+    
     <div className="signup-container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="signup-form">
