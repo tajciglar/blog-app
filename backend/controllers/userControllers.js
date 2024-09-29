@@ -1,10 +1,12 @@
-const passport = require("../middleware/passport")
+const { useLocation } = require('react-router-dom'); 
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET
+
+
 
 async function signUp (req, res) {
     await body('email').isEmail().withMessage('Must be a valid email').run(req);
@@ -72,7 +74,7 @@ async function logIn (req, res) {
         }
 
         const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1h' });
-
+        console.log(token);
         return res.json({
             success: true,
             message: 'Login successful',
@@ -85,7 +87,40 @@ async function logIn (req, res) {
     }
 };
 
+async function homePage(req, res) {
+   
+    try {
+        const posts = await prisma.post.findMany();
+        res.json({ message: 'You are authenticated', user: req.user, posts });
+    } catch (err) {
+        console.error(err);
+    }
+    
+}
+
+async function showPost(req, res) {
+    const { id } = req.params;
+
+    try {
+        const post = await prisma.post.findUnique({
+            where: {
+                id: id, 
+            },
+        });
+        
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        res.json(post); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'An error occurred' });
+    }
+}
+
 module.exports = {
     signUp,
-    logIn
+    logIn,
+    homePage,
+    showPost
 }

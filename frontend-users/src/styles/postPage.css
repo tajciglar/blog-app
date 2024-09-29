@@ -1,0 +1,18 @@
+.post {
+    display: grid;
+    grid-template-rows: auto 1fr; 
+    justify-content: center;
+    align-items: start;
+    padding: 30px;
+}
+
+.post h1 {
+    justify-self: center; 
+    margin-bottom: 20px; 
+}
+
+.post p {
+    justify-self: center; 
+    overflow-y: auto; 
+    max-width: 800px; 
+}

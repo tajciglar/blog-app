@@ -19,7 +19,6 @@ model User {
   email      String    @unique
   name       String?
   password   String    @db.Char(60)
-  posts      Post[]
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @updatedAt
   Comment    Comment[]
@@ -30,8 +29,6 @@ model Post {
   title      String
   content    String
   comments   Comment[]
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   String
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @updatedAt
 }
