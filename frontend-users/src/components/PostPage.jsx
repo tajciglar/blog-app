@@ -14,11 +14,27 @@ const PostPage = () => {
 
     const fetchPost = async (id, slug) => {
         try {
-            const response = await fetch(`/api/users/${id}/${slug}`);
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/users/${id}/${slug}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,  
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+        
             const data = await response.json();
-           
+            console.log(data)
             setPost(data.post);
-            setComments(data.comments);
+            setComments(data.comments.map(comment => ({
+                id: comment.id,
+                content: comment.content,
+                author: comment.author.name, 
+                createdAt: comment.createdAt,
+            })));  
         } catch (err) {
             console.error('Error fetching post:', err);
         }
@@ -32,16 +48,29 @@ const PostPage = () => {
         }
         const userId = localStorage.getItem('userId');
 
-        console.log(userId);
         try {
-            console.log("in")
-            await fetch(`/api/users/${id}/${slug}`, {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/users/${id}/${slug}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+
                 },
                 body: JSON.stringify({ newComment, userId }),
             });
+
+            const data = await response.json();
+            if (data.success) {
+                console.log(data)
+                setComments([...comments, {
+                    id: data.commentData.id,
+                    content: data.commentData.content,
+                    author: data.commentData.author.name, 
+                    createdAt: data.commentData.createdAt,
+                }]);   
+                setNewComment(''); 
+            }
 
         } catch (err) {
             console.error(err);
@@ -72,7 +101,12 @@ const PostPage = () => {
                                 {comments && comments.length > 0 ? (
                                     <ul>
                                         {comments.map(comment => (
-                                            <li key={comment.id}>{comment.content}</li>
+                                            <li key={comment.id}>
+                                                <div>
+                                                    <strong>{comment.author}:</strong> {comment.content}
+                                                </div>
+                                                <small>{new Date(comment.createdAt).toLocaleString()}</small>
+                                            </li>
                                         ))}
                                     </ul>
                                 ) : (

@@ -112,12 +112,20 @@ async function showPost(req, res) {
             where: {
                 postId: post.id,
             },
+            include: {
+                author: {
+                    select: {
+                        name: true, 
+                    },
+                },
+            },
         });
-      
+
+
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        res.json({post, comments}); 
+        res.status(200).json({post, comments}); 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'An error occurred' });
@@ -126,22 +134,31 @@ async function showPost(req, res) {
 
 
 async function addComment(req, res) {
-
     const postId = req.params.id;
     const data = req.body;
-    console.log(data)
+
     try {
-        await prisma.comment.create({
+        const commentData = await prisma.comment.create({
             data: {
                 postId: postId,
                 authorId: data.userId,
                 content: data.newComment,
-            }
-        })
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                    }
+                }
+            },
+        });
+        return res.status(201).json({ success: true, commentData: commentData });
     } catch (err) {
         console.error(err);
+        return res.status(500).json({ success: false, message: 'An error occurred while adding the comment' });
     }
 }
+
 
 module.exports = {
     signUp,

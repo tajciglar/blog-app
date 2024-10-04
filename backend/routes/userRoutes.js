@@ -12,7 +12,7 @@ router.post('/login', userController.logIn);
 
 router.get('/', passport.authenticate('jwt', { session: false }), userController.homePage);
 
-router.get("/log-out", (req, res, next) => {
+router.get("/log-out",passport.authenticate('jwt', { session: false }), (req, res, next) => {
     req.logout((err) => {
         if (err) {
             return next(err);
@@ -21,7 +21,7 @@ router.get("/log-out", (req, res, next) => {
     });
 });
 
-router.get('/:id/:title', userController.showPost);
-router.post('/:id/:title', userController.addComment);
+router.get('/:id/:title', passport.authenticate('jwt', { session: false }), userController.showPost);
+router.post('/:id/:title', passport.authenticate('jwt', { session: false }), userController.addComment);
 
 module.exports = router;
