@@ -1,15 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import AdminDashboard from './AdminDashboard'; 
-import LandingPage from 'shared/components/LandingPage';
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import HomePage from './HomePage';
+import Signup from './Singup';
+import LogInPage from '../../../shared/components/LogInPage';
+import PostPage from './PostPage';
+
 
 const App = () => {
-
-  console.log("something")
   return (
-    <>
-    <p>Something</p>
-    </>
+    <Router>
+      <Routes>
+        <Route path='/' element={<HomePage/>} />
+        <Route path='/signup' element={<Signup/>} />
+        <Route path="/login" exact element={<LogInPage/>} />
+        <Route path="/:id/:slug" element={<PostPage />} />
+      </Routes>
+    </Router>
   );
 };
 

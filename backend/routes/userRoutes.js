@@ -1,9 +1,6 @@
 const { Router } = require("express");
 const userController = require("../controllers/userControllers");
 const passport = require("passport");
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient()
-const bcrypt = require('bcryptjs');
 
 
 
@@ -25,5 +22,6 @@ router.get("/log-out", (req, res, next) => {
 });
 
 router.get('/:id/:title', userController.showPost);
+router.post('/:id/:title', userController.addComment);
 
 module.exports = router;

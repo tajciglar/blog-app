@@ -1,4 +1,3 @@
-const { useLocation } = require('react-router-dom'); 
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
@@ -27,6 +26,7 @@ async function signUp (req, res) {
     }
  
     const userData = req.body;
+    
     const result = await prisma.user.findUnique({
             where: {
                 email: userData.email, 
@@ -74,7 +74,7 @@ async function logIn (req, res) {
         }
 
         const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1h' });
-        console.log(token);
+    
         return res.json({
             success: true,
             message: 'Login successful',
@@ -88,7 +88,7 @@ async function logIn (req, res) {
 };
 
 async function homePage(req, res) {
-   
+
     try {
         const posts = await prisma.post.findMany();
         res.json({ message: 'You are authenticated', user: req.user, posts });
@@ -107,14 +107,39 @@ async function showPost(req, res) {
                 id: id, 
             },
         });
-        
+
+        const comments = await prisma.comment.findMany({
+            where: {
+                postId: post.id,
+            },
+        });
+      
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        res.json(post); 
+        res.json({post, comments}); 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'An error occurred' });
+    }
+}
+
+
+async function addComment(req, res) {
+
+    const postId = req.params.id;
+    const data = req.body;
+    console.log(data)
+    try {
+        await prisma.comment.create({
+            data: {
+                postId: postId,
+                authorId: data.userId,
+                content: data.newComment,
+            }
+        })
+    } catch (err) {
+        console.error(err);
     }
 }
 
@@ -122,5 +147,6 @@ module.exports = {
     signUp,
     logIn,
     homePage,
-    showPost
+    showPost,
+    addComment
 }

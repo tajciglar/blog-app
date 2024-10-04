@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
+    password: '',
+    confirm_password: '',
   });
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,10 +45,12 @@ const Signup = () => {
           },
           body: JSON.stringify(formData),
         });
-        console.log(response)
+
         const data = await response.json();
-        setErrors(data.errors)
-        setFormData(data.formData);
+        if (data.success !== true) {
+          console.error('Something went wrong, please try again');
+        }
+        navigate('/login')       
         
       } catch (error) {
         console.error('Submission error:', error);

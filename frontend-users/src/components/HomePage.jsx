@@ -89,7 +89,7 @@ const HomePage = () => {
                         posts.map((post, index) => (
                             <div key={post.id} onClick={() => handlePostClick(post)} style={{ cursor: 'pointer' }} className={`post-card ${index % 2 === 0 ? 'post-card-top' : 'post-card-bottom'}`}>
                                 <h2>{post.title}</h2>
-                                <img src="/"></img>
+                                <img src="/" alt="picture"></img>
                             </div>
                         ))
                     ) : (

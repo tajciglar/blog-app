@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const LogInPage = () => {
     const navigate = useNavigate();
@@ -34,6 +35,9 @@ const LogInPage = () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
+                const decodedToken = jwtDecode(data.token)
+                localStorage.setItem('userId', decodedToken.id);
+                console.log(localStorage)
                 navigate('/'); 
             } else {
                 setError(data.message);
