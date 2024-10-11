@@ -73,14 +73,15 @@ async function logIn (req, res) {
             return res.status(401).json({ success: false, message: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1h' });
-    
-        return res.json({
+        const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+
+         return res.json({
             success: true,
-            message: 'Login successful',
-            redirectUrl: '/',
+            role: user.role,
             token,
-        });
+        }); 
+    
+        
     } catch (err) {
         console.error('Error during login:', err);
         return res.status(500).json({ success: false, message: 'An error occurred' });

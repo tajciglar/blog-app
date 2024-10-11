@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import './logInPage.css';
 
 const LogInPage = () => {
     const navigate = useNavigate();
@@ -36,9 +37,19 @@ const LogInPage = () => {
             if (response.ok) {
                 localStorage.setItem('token', data.token);
                 const decodedToken = jwtDecode(data.token)
+
+                 const currentTime = Date.now() / 1000; // Convert to seconds
+                if (decodedToken.exp < currentTime) {
+                    setError('Your session has expired. Please log in again.');
+                    return;
+                }
                 localStorage.setItem('userId', decodedToken.id);
-                console.log(localStorage)
-                navigate('/'); 
+                if(data.role === 'ADMIN'){
+                    navigate('/admin')
+                } else {
+                    navigate('/');
+                }
+                
             } else {
                 setError(data.message);
             }
@@ -54,7 +65,7 @@ const LogInPage = () => {
     return (
         <div className="landing-page">
             <h1>Welcome to the Blog</h1>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className='login-form'>
                 {error && <p className="error">{error}</p>}
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>

@@ -21,6 +21,7 @@ model User {
   password   String    @db.Char(60)
   createdAt  DateTime  @default(now())
   modifiedAt DateTime  @updatedAt
+  role       Role      @default(USER)
   Comment    Comment[]
 }
 
@@ -35,11 +36,16 @@ model Post {
 
 model Comment {
   id         String   @id @default(uuid())
-  post       Post     @relation(fields: [postId], references: [id])
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId     String
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String
   content    String
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }
