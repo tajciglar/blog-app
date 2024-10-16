@@ -23,6 +23,11 @@ app.use('/users', express.static(path.join(__dirname, '../frontend-users/dist'))
 app.use('/admin', express.static(path.join(__dirname, '../frontend-admin/dist')));
 
 
+app.get('/api/editor', (req, res) => {
+  const apiKey = process.env.TINY_API;
+  res.json({apiKey})
+})
+
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ message: 'API route not found' });
@@ -34,6 +39,8 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend-users/dist', 'index.html'));
   }
 });
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

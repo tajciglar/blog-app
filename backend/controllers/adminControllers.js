@@ -1,6 +1,22 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+async function newPost(req, res) {
+    const data = req.body;
+
+    try{
+        const result = await prisma.post.create({
+            data: {
+                title: data.title,
+                content: data.content,
+            }
+        })
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 async function deletePost(req, res) {
     const postId = req.params.postId;
 
@@ -45,10 +61,6 @@ async function editPost(req, res) {
     } catch (err) {
         console.error(err);
     }
-    
-}
-
-async function newPost(req, res) {
     
 }
 

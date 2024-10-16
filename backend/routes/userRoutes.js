@@ -21,5 +21,7 @@ router.get("/log-out",passport.authenticate('jwt', { session: false }), (req, re
 
 router.get('/:id/:title', userController.showPost);
 router.post('/:id/:title', passport.authenticate('jwt', { session: false }), userController.addComment);
+router.delete('/:id/:commentId', passport.authenticate('jwt', { session: false }), userController.deleteComment)
+router.put('/:id/:commentId', passport.authenticate('jwt', { session: false }), userController.editComment)
 
 module.exports = router;

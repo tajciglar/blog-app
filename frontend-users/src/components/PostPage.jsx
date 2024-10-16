@@ -1,20 +1,31 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Header from './Header';
 import '../styles/postPage.css';
+import DOMPurify  from 'dompurify'; // sanitazing content
+import { Editor } from "@tinymce/tinymce-react";
 
 // eslint-disable-next-line react/prop-types
 const PostPage = ({ isAdmin }) => {
+
+    const editorRef = useRef(null);
+
     const { id, slug } = useParams();  
     const [post, setPost] = useState(null);
     const [newComment, setNewComment] = useState('');
     const [comments, setComments] = useState([]);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editedCommentContent, setEditedCommentContent] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
     const [editedContent, setEditedContent] = useState('');
     const [loggedIn, setLoggedIn] = useState(false); 
+    const [apiKey, setApiKey] = useState(null);
+
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
+        
         fetchPost(id, slug);
         checkLoginStatus(); 
     }, [id, slug]);
@@ -39,6 +50,7 @@ const PostPage = ({ isAdmin }) => {
             setComments(data.comments.map(comment => ({
                 id: comment.id,
                 content: comment.content,
+                authorId: comment.authorId,
                 author: comment.author.name, 
                 createdAt: comment.createdAt,
             })));  
@@ -63,6 +75,7 @@ const PostPage = ({ isAdmin }) => {
             console.error('No comment submitted');
             return;
         }
+
         const userId = localStorage.getItem('userId');
 
         try {
@@ -78,9 +91,11 @@ const PostPage = ({ isAdmin }) => {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log(data)
                 setComments([...comments, {
                     id: data.commentData.id,
                     content: data.commentData.content,
+                    authorId: data.commentData.authorId,
                     author: data.commentData.author.name, 
                     createdAt: data.commentData.createdAt,
                 }]);   
@@ -92,6 +107,7 @@ const PostPage = ({ isAdmin }) => {
     };
 
     const toggleEdit = () => {
+
         setIsEditing(!isEditing);
     };
 
@@ -118,6 +134,70 @@ const PostPage = ({ isAdmin }) => {
         }
     };
 
+    const fetchApiKey = async () => {
+        try {
+            const response = await fetch('/api/editor');
+            const data = await response.json();
+            setApiKey(data.apiKey); 
+        } catch (err) {
+            console.error('Error fetching API key:', err);
+        }
+    };
+
+    const handleEditComment = (commentId, content) => {
+        setEditingCommentId(commentId);
+        setEditedCommentContent(content);
+    };
+
+
+    const saveEditedComment = async (commentId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/users/${id}/${commentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: editedCommentContent }),
+            });
+            console.log(response)
+            if (response.ok) {
+                console.log(response)
+                setComments(comments.map(comment => 
+                    comment.id === commentId ? { ...comment, content: editedCommentContent } : comment
+                ));
+                setEditingCommentId(null);
+                setEditedCommentContent('');
+            }
+        } catch (err) {
+            console.error('Error updating comment:', err);
+        }
+    };
+
+    const deleteComment = async (commentId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/users/${id}/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                setComments(comments.filter(comment => comment.id !== commentId));
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+        }
+    };
+
+       useEffect(() => {
+        fetchApiKey();
+    }, []);
+
     return (
         <>
             <Header />
@@ -138,12 +218,26 @@ const PostPage = ({ isAdmin }) => {
                         </div>
                         <div className="content">
                             {isEditing ? (
-                                <textarea 
-                                    value={editedContent} 
-                                    onChange={(e) => setEditedContent(e.target.value)}
+                                <Editor
+                                    apiKey={apiKey}
+                                    onInit={(evt, editor) => (editorRef.current = editor)}
+                                    initialValue={editedContent}
+                                    init={{
+                                        height: 300,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount'
+                                        ],
+                                        toolbar:
+                                            'undo redo | formatselect | bold italic backcolor | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            bullist numlist outdent indent | removeformat | help'
+                                    }}
                                 />
                             ) : (
-                                <p>{post.content}</p>
+                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} /> // Sanitize before rendering
                             )}
                         </div>
                         
@@ -166,15 +260,40 @@ const PostPage = ({ isAdmin }) => {
                                     {comments.map(comment => (
                                         <li key={comment.id}>
                                             <div>
-                                                <strong>{comment.author}:</strong> {comment.content}
+                                                <strong>{comment.author}:</strong>
+                                                {editingCommentId === comment.id ? (
+                                                    <input
+                                                        type="text"
+                                                        value={editedCommentContent}
+                                                        onChange={(e) => setEditedCommentContent(e.target.value)}
+                                                    />
+                                                ) : (
+                                                    comment.content
+                                                )}
                                             </div>
                                             <small>{new Date(comment.createdAt).toLocaleString()}</small>
+                                                {userId === comment.authorId && (
+                                                <>
+                                                    {editingCommentId === comment.id ? (
+                                                        <>
+                                                            <button onClick={() => saveEditedComment(comment.id)}>Save</button>
+                                                            <button onClick={() => setEditingCommentId(null)}>Cancel</button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button onClick={() => handleEditComment(comment.id, comment.content)}>Edit</button>
+                                                            <button onClick={() => deleteComment(comment.id)}>Delete</button>
+                                                        </>
+                                                    )}
+                                                </>
+                                            )}
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
                                 <p>No comments available.</p>
                             )}
+
 
                             {/* Only show comment form if the user is logged in */}
                             {loggedIn ? (

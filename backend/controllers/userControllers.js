@@ -5,8 +5,6 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET
 
-
-
 async function signUp (req, res) {
     await body('email').isEmail().withMessage('Must be a valid email').run(req);
     await body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long').run(req);
@@ -161,10 +159,57 @@ async function addComment(req, res) {
 }
 
 
+async function deleteComment(req, res) {
+    const paramsData = req.params;
+    const bodyData = req.body;
+
+    console.log(paramsData, bodyData);
+    
+}
+
+async function editComment(req, res) {
+    const paramsData = req.params;
+    const bodyData = req.body;
+
+    try{
+        const editedComment = await prisma.comment.update({
+            where: {
+                id: paramsData.commentId,
+            },
+            data: {
+                content: bodyData.content,
+            }
+        })
+        return res.status(200).json({ editedComment}); 
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+    
+}
+
+async function deleteComment(req, res) {
+    const paramsData = req.params;
+    try{
+        const deletedComment = await prisma.comment.delete({
+            where: {
+                id: paramsData.commentId,
+            }
+        })
+        return res.status(200).json({ deletedComment}); 
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+    
+}
+
 module.exports = {
     signUp,
     logIn,
     homePage,
     showPost,
-    addComment
+    addComment,
+    deleteComment,
+    editComment,
 }

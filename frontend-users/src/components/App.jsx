@@ -4,6 +4,7 @@ import Signup from './Singup';
 import LogInPage from '../../../shared/components/LogInPage';
 import PostPage from './PostPage';
 import ProtectedRoute from './ProtectedRoute';
+import NewPost from './NewPost';
 
 const App = () => {
   return (
@@ -27,7 +28,14 @@ const App = () => {
             <PostPage isAdmin={true} />
           </ProtectedRoute>
         } />
-        </Routes>
+        <Route path='/admin/newPost'
+          element={
+            <ProtectedRoute allowedRole="ADMIN">
+              <NewPost />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Router>
   );
 };

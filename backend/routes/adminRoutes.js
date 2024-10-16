@@ -8,7 +8,7 @@ router.delete('/delete/:postId', passport.authenticate('jwt', { session: false }
 
 router.put('/edit/:postId', passport.authenticate('jwt', { session: false }), adminControllers.editPost);
 
-router.put('/newPost', passport.authenticate('jwt', { session: false }), adminControllers.newPost);
+router.post('/newPost', passport.authenticate('jwt', { session: false }), adminControllers.newPost);
 
 
 module.exports = router;

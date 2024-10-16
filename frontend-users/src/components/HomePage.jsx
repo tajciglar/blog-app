@@ -113,7 +113,7 @@ const HomePage = ({ isAdmin }) => {
     };
 
     const handleNewPost = () => {
-        navigate('/newPost')
+        navigate('/admin/newPost')
     }
 
     return (
