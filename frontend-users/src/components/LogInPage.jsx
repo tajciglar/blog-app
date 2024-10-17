@@ -24,7 +24,7 @@ const LogInPage = () => {
         }
 
         try {
-            const response = await fetch('/api/users/login', {
+            const response = await fetch('https://blog-app-7uxs.onrender.com/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const LogInPage = () => {
     };
 
     const handleSignUp = () => {
-        navigate('/signup');
+        navigate('https://blog-app-7uxs.onrender.com/signup');
     };
 
     return (

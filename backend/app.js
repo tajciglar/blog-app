@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-    origin: 'https://blog-app-7uxs.onrender.com', // Replace with your frontend URL
+    origin: 'https://tajsblogapp.netlify.app', // Replace with your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
     credentials: true, // Allow credentials if needed
 };

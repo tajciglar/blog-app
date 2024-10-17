@@ -38,7 +38,7 @@ const Signup = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch('http://localhost:3000/api/users/signup', {
+        const response = await fetch('https://blog-app-7uxs.onrender.com/api/users/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const Signup = () => {
         if (data.success !== true) {
           console.error('Something went wrong, please try again');
         }
-        navigate('/login')       
+        navigate('https://blog-app-7uxs.onrender.com/login')       
         
       } catch (error) {
         console.error('Submission error:', error);

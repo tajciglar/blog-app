@@ -13,7 +13,7 @@ const NewPost = () => {
         if (editorRef.current) {
             const content = editorRef.current.getContent();
             const title = event.target.title.value;
-            const response = await fetch('/api/admin/newPost', {
+            const response = await fetch('https://blog-app-7uxs.onrender.com/api/admin/newPost', {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -30,7 +30,7 @@ const NewPost = () => {
 
     const fetchApiKey = async () => {
         try {
-            const response = await fetch('/api/editor');
+            const response = await fetch('https://blog-app-7uxs.onrender.com/api/editor');
             const data = await response.json();
             setApiKey(data.apiKey); 
         } catch (err) {

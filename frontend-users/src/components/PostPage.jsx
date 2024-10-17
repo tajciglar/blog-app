@@ -34,7 +34,7 @@ const PostPage = ({ isAdmin }) => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`/api/users/${id}/${slug}`, {
+            const response = await fetch(`https://blog-app-7uxs.onrender.com/api/users/${id}/${slug}`, {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : '',  // Token only if available
                     'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ const PostPage = ({ isAdmin }) => {
         if((window.confirm('Are you sure you want to delete this comment?'))){
              try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`/api/users/${id}/${commentId}`, {
+                const response = await fetch(`https://blog-app-7uxs.onrender.com/api/users/${id}/${commentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,
