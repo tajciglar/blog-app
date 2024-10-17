@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Header from './Header';
 import '../styles/homePage.css';
-const backend_url = process.env.REACT_APP_BACKEND_URL;
+const backend_url = "https://blog-app-7uxs.onrender.com";
 console.log('Backend URL:', backend_url);
 
 
