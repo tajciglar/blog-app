@@ -53,6 +53,11 @@
     margin-top: 20px;
 }
 
+.comments button {
+    font-size: 10px;
+    margin: 3px;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -93,27 +98,21 @@ form {
     height: 25px;
 }
 
+.comment-form button {
+    background-color: #efefef;
+}
+
 .comment-form input {
     background-color: #efefef;
     border: 0;
     height: 25px;
+    border-radius: 5px;
 }
 
 .comment-form input:focus {
     outline: 0;
 }
 
-.comment-form button {
-    height: 100%;
-    width: 50px;
-    font-size: 10px;
-    margin: 0;
-    padding: 0px;
-    background-color: #efefef;
-    color:#5b5b5b;
-    border-radius: 0;
-    border: 0.5px solid #aca9a9;
-}
 
 .comment-form button:hover {
     border-color: #555;

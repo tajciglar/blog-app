@@ -176,21 +176,23 @@ const PostPage = ({ isAdmin }) => {
     };
 
     const deleteComment = async (commentId) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`/api/users/${id}/${commentId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
+        if((window.confirm('Are you sure you want to delete this comment?'))){
+             try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/users/${id}/${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-            if (response.ok) {
-                setComments(comments.filter(comment => comment.id !== commentId));
+                if (response.ok) {
+                    setComments(comments.filter(comment => comment.id !== commentId));
+                }
+            } catch (err) {
+                console.error('Error deleting comment:', err);
             }
-        } catch (err) {
-            console.error('Error deleting comment:', err);
         }
     };
 
@@ -260,7 +262,7 @@ const PostPage = ({ isAdmin }) => {
                                     {comments.map(comment => (
                                         <li key={comment.id}>
                                             <div>
-                                                <strong>{comment.author}:</strong>
+                                                <strong>{comment.author}: </strong>
                                                 {editingCommentId === comment.id ? (
                                                     <input
                                                         type="text"
