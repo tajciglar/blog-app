@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Header from './Header';
 import '../styles/homePage.css';
+const backend_url = process.env.REACT_APP_BACKEND_URL;
+console.log('Backend URL:', backend_url);
 
 
 // eslint-disable-next-line react/prop-types
 const HomePage = ({ isAdmin }) => {
-    // eslint-disable-next-line no-undef
-    const backend_url = process.env.REACT_APP_BACKEND_URL;
+    
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ const HomePage = ({ isAdmin }) => {
             
             // Fetch posts independently of user authentication
             try {
+                console.log(backend_url)
                 const postsResponse = await fetch(`${backend_url}/api/users`, {
                     method: 'GET',
                     headers: {
