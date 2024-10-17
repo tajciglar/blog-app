@@ -7,7 +7,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors()); 
+const corsOptions = {
+    origin: 'https://blog-app-7uxs.onrender.com', // Replace with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
+    credentials: true, // Allow credentials if needed
+};
+
+app.use(cors(corsOptions)); 
 
 app.use(express.json());
 
@@ -34,8 +40,6 @@ app.get('*', (req, res) => {
   }
  
   if (req.path.startsWith('/admin')) {
-    res.sendFile(path.join(__dirname, '../frontend-admin/dist', 'index.html'));
-  } else {
     res.sendFile(path.join(__dirname, '../frontend-users/dist', 'index.html'));
   }
 });

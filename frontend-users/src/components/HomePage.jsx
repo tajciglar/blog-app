@@ -22,14 +22,14 @@ const HomePage = ({ isAdmin }) => {
             
             // Fetch posts independently of user authentication
             try {
-                console.log(backend_url)
+                console.log("in")
                 const postsResponse = await fetch(`${backend_url}/api/users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 });
-
+                console.log(postsResponse)
                 if (!postsResponse.ok) {
                     console.error('Error fetching posts:', postsResponse.statusText);
                     return;
