@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import Header from './Header';
 import '../styles/homePage.css';
 
+
 // eslint-disable-next-line react/prop-types
 const HomePage = ({ isAdmin }) => {
+    // eslint-disable-next-line no-undef
+    const backend_url = process.env.REACT_APP_BACKEND_URL;
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,7 +21,7 @@ const HomePage = ({ isAdmin }) => {
             
             // Fetch posts independently of user authentication
             try {
-                const postsResponse = await fetch('/api/users', {
+                const postsResponse = await fetch(`${backend_url}/api/users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,7 +51,7 @@ const HomePage = ({ isAdmin }) => {
                         return;
                     }
 
-                    const userResponse = await fetch('/api/users/', {
+                    const userResponse = await fetch(`${backend_url}/api/users`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -95,7 +98,7 @@ const HomePage = ({ isAdmin }) => {
     const handleDeletePost = async (postId) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
-                const response = await fetch(`/api/admin/delete/${postId}`, {
+                const response = await fetch(`${backend_url}/api/admin/delete/${postId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -113,7 +116,7 @@ const HomePage = ({ isAdmin }) => {
     };
 
     const handleNewPost = () => {
-        navigate('/admin/newPost')
+        navigate(`${backend_url}/admin/newPost`)
     }
 
     return (
