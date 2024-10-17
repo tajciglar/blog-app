@@ -59,7 +59,7 @@ const LogInPage = () => {
     };
 
     const handleSignUp = () => {
-        navigate('https://blog-app-7uxs.onrender.com/signup');
+        navigate('/signup');
     };
 
     return (
