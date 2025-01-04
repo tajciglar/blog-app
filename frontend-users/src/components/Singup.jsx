@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import '../styles/signUp.css';
+
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -29,6 +32,7 @@ const Signup = () => {
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
     if (!formData.password) newErrors.password = 'Password is required';
     else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters long';
+    if (formData.password !== formData.confirm_password) newErrors.confirm_password = 'Passwords do not match';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -38,7 +42,8 @@ const Signup = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch('https://blog-app-7uxs.onrender.com/api/users/signup', {
+        const BACKEND_URL = import.meta.env.BACKEND_URL;
+        const response = await fetch(`${BACKEND_URL}/api/users/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -49,19 +54,20 @@ const Signup = () => {
         const data = await response.json();
         if (data.success !== true) {
           console.error('Something went wrong, please try again');
+        } else {
+          // Navigate to the login page on successful sign-up
+          navigate('/login');
         }
-        navigate('https://blog-app-7uxs.onrender.com/login')       
-        
+
       } catch (error) {
         console.error('Submission error:', error);
-      } finally { 
+      } finally {
         setIsSubmitting(false);
       }
     }
   };
 
   return (
-    
     <div className="signup-container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="signup-form">
@@ -100,8 +106,9 @@ const Signup = () => {
           />
           {errors.password && <p className="error">{errors.password}</p>}
         </div>
+
         <div className="form-group">
-          <label htmlFor="password">Confirm password</label>
+          <label htmlFor="confirm_password">Confirm Password</label>
           <input
             type="password"
             id="confirm_password"
@@ -109,8 +116,9 @@ const Signup = () => {
             value={formData.confirm_password}
             onChange={handleChange}
           />
-          {errors.password && <p className="error">{errors.password}</p>}
+          {errors.confirm_password && <p className="error">{errors.confirm_password}</p>}
         </div>
+
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Sign Up'}
         </button>

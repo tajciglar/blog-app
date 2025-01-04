@@ -13,7 +13,8 @@ const NewPost = () => {
         if (editorRef.current) {
             const content = editorRef.current.getContent();
             const title = event.target.title.value;
-            const response = await fetch('https://blog-app-7uxs.onrender.com/api/admin/newPost', {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            const response = await fetch(`${BACKEND_URL}/api/admin/newPost`, {
                 method: "POST",
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

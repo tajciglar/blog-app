@@ -8,7 +8,17 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-    origin: 'https://tajsblogapp.netlify.app', // Replace with your frontend URL
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            'https://tajsblogapp.netlify.app', // Production URL
+            'http://localhost:5173' // Development URL
+        ];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
     credentials: true, // Allow credentials if needed
 };

@@ -114,7 +114,8 @@ const PostPage = ({ isAdmin }) => {
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`/api/admin/edit/${id}`, {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            const response = await fetch(`${BACKEND_URL}/api/admin/edit/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

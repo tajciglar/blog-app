@@ -24,7 +24,9 @@ const LogInPage = () => {
         }
 
         try {
-            const response = await fetch('https://blog-app-7uxs.onrender.com/api/users/login', {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            console.log(BACKEND_URL)
+            const response = await fetch(`${BACKEND_URL}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,10 +60,6 @@ const LogInPage = () => {
         }
     };
 
-    const handleSignUp = () => {
-        navigate('/signup');
-    };
-
     return (
         <div className="landing-page">
             <h1>Welcome to the Blog</h1>
@@ -88,8 +86,9 @@ const LogInPage = () => {
                     />
                 </div>
                 <button type="submit">Login</button>
+                 <a href="/signup" id='createAcc'>Create account</a>
             </form>
-            <button onClick={handleSignUp}>Create account</button>
+           
         </div>
     );
 };

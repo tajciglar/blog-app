@@ -1,34 +1,29 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { jwtDecode } from "jwt-decode"; // Corrected import
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Header from './Header';
+import PropTypes from 'prop-types';
 import '../styles/homePage.css';
-const backend_url = "https://blog-app-7uxs.onrender.com";
-console.log('Backend URL:', backend_url);
 
-
-// eslint-disable-next-line react/prop-types
 const HomePage = ({ isAdmin }) => {
-    
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
         const fetchProfileAndPosts = async () => {
             const token = localStorage.getItem('token');
             
-            // Fetch posts independently of user authentication
             try {
-                const postsResponse = await fetch(`${backend_url}/api/users`, {
+                
+                const postsResponse = await fetch(`${BACKEND_URL}/api/users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 });
-                
+                console.log(postsResponse)
                 if (!postsResponse.ok) {
                     console.error('Error fetching posts:', postsResponse.statusText);
                     return;
@@ -52,7 +47,7 @@ const HomePage = ({ isAdmin }) => {
                         return;
                     }
 
-                    const userResponse = await fetch(`${backend_url}/api/users`, {
+                    const userResponse = await fetch(`${BACKEND_URL}/api/users`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -77,7 +72,7 @@ const HomePage = ({ isAdmin }) => {
                 }
             }
 
-            setLoading(false); // Set loading to false after fetching posts and/or user
+            setLoading(false);
         };
 
         fetchProfileAndPosts();
@@ -90,16 +85,16 @@ const HomePage = ({ isAdmin }) => {
     const handlePostClick = (post) => {
         const slug = generateSlug(post.title);
         if (isAdmin) {
-            navigate(`/admin/${post.id}/${slug}`); 
+            navigate(`/admin/${post.id}/${slug}`);
         } else {
-            navigate(`/${post.id}/${slug}`); 
+            navigate(`/${post.id}/${slug}`);
         }
     };
 
     const handleDeletePost = async (postId) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
-                const response = await fetch(`${backend_url}/api/admin/delete/${postId}`, {
+                const response = await fetch(`${BACKEND_URL}/api/admin/delete/${postId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -117,8 +112,8 @@ const HomePage = ({ isAdmin }) => {
     };
 
     const handleNewPost = () => {
-        navigate(`${backend_url}/admin/newPost`)
-    }
+        navigate('/admin/newPost');
+    };
 
     return (
         <>
@@ -133,7 +128,6 @@ const HomePage = ({ isAdmin }) => {
                             <div 
                                 key={post.id} 
                                 onClick={() => handlePostClick(post)} 
-                                style={{ cursor: 'pointer' }} 
                                 className={`post-card ${index % 2 === 0 ? 'post-card-top' : 'post-card-bottom'}`}
                             >
                                 <h2>{post.title}</h2>
@@ -155,11 +149,15 @@ const HomePage = ({ isAdmin }) => {
                     )
                 )}
             </div>
-           {isAdmin && (
-                <button onClick={handleNewPost}>NEW POST</button>
-           )}
+            {isAdmin && (
+                <button id="new-post" onClick={handleNewPost}>NEW POST</button>
+            )}
         </>
     );
+};
+
+HomePage.propTypes = {
+    isAdmin: PropTypes.bool
 };
 
 export default HomePage;
