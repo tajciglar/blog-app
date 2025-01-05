@@ -124,6 +124,7 @@ const Signup = () => {
           {isSubmitting ? 'Submitting...' : 'Sign Up'}
         </button>
       </form>
+      <p>Already signed up? Log in <a href='/login'>here</a></p>
     </div>
   );
 };

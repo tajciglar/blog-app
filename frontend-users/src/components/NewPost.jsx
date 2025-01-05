@@ -2,6 +2,7 @@ import Header from "./Header";
 import { Editor } from "@tinymce/tinymce-react";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import '../styles/newPost.css'
 
 const NewPost = () => {
     const editorRef = useRef(null);
@@ -26,7 +27,6 @@ const NewPost = () => {
                 navigate('/admin');
              }
         }
-       
     };
 
     const fetchApiKey = async () => {
@@ -39,7 +39,6 @@ const NewPost = () => {
         }
     };
 
-
     useEffect(() => {
         fetchApiKey();
     }, []);
@@ -47,35 +46,39 @@ const NewPost = () => {
     return (
         <>
             <Header />
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Add a title:
-                    <input type="text" name="title" required />
-                </label>
-                {apiKey ? (
-                    <Editor
-                        apiKey={apiKey}
-                        onInit={(evt, editor) => (editorRef.current = editor)}
-                        initialValue=""
-                        init={{
-                            height: 300,
-                            menubar: false,
-                            plugins: [
-                                'advlist autolink lists link image charmap print preview anchor',
-                                'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste code help wordcount'
-                            ],
-                            toolbar:
-                                'undo redo | formatselect | bold italic backcolor | \
-                                alignleft aligncenter alignright alignjustify | \
-                                bullist numlist outdent indent | removeformat | help'
-                        }}
-                    />
-                ) : (
-                    <p>Loading editor...</p> 
-                )}
-                <input type="submit" value="Submit" />
-            </form>
+            <div className="new-post-container">
+                <form className="new-post-form" onSubmit={handleSubmit}>
+                    <label>
+                        Add a title:
+                        <input type="text" name="title" required />
+                    </label>
+                    {apiKey ? (
+                        <div className="editor-container">
+                            <Editor
+                                apiKey={apiKey}
+                                onInit={(evt, editor) => (editorRef.current = editor)}
+                                initialValue=""
+                                init={{
+                                    height: 300,
+                                    menubar: false,
+                                    plugins: [
+                                        'advlist autolink lists link image charmap print preview anchor',
+                                        'searchreplace visualblocks code fullscreen',
+                                        'insertdatetime media table paste code help wordcount'
+                                    ],
+                                    toolbar:
+                                        'undo redo | formatselect | bold italic backcolor | \
+                                        alignleft aligncenter alignright alignjustify | \
+                                        bullist numlist outdent indent | removeformat | help'
+                                }}
+                            />
+                        </div>
+                    ) : (
+                        <p className="loading-text">Loading editor...</p> 
+                    )}
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
         </>
     );
 };

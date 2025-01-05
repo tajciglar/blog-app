@@ -33,16 +33,6 @@ label {
   margin-bottom: 8px;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
 
 input:focus {
   border-color: #007bff;
@@ -72,9 +62,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button:hover:enabled {
-  background-color: #0056b3;
-}
 
 .signup-container a {
   color: #007bff;

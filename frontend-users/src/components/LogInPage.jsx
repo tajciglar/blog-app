@@ -55,7 +55,7 @@ const LogInPage = () => {
                 setError(data.message);
             }
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            setError('An error occurred. Please try again.', err);
         }
     };
 
@@ -87,7 +87,7 @@ const LogInPage = () => {
                 <button type="submit">Login</button>
                  <a href="/signup" id='createAcc'>Create account</a>
             </form>
-           
+           <p>Not yet signed up? Sign up <a href='/signup'>here</a></p>
         </div>
     );
 };
