@@ -24,7 +24,7 @@ async function signUp (req, res) {
     }
  
     const userData = req.body;
-    
+    console.log(userData)
     const result = await prisma.user.findUnique({
             where: {
                 email: userData.email, 

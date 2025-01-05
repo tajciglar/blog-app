@@ -37,7 +37,7 @@ const Header = () => {
 
     return (
         <header className="header">
-            <h1 className="title">My Blog App</h1>
+            <h1 className="title"><a href='/'>My Blog App</a></h1>
             <nav className="nav">
                 <ul className="nav-list">
                     {loggedIn === true ? (

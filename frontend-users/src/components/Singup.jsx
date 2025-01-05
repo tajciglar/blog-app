@@ -42,7 +42,8 @@ const Signup = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const BACKEND_URL = import.meta.env.BACKEND_URL;
+        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+        console.log(formData)
         const response = await fetch(`${BACKEND_URL}/api/users/signup`, {
           method: 'POST',
           headers: {
@@ -50,7 +51,7 @@ const Signup = () => {
           },
           body: JSON.stringify(formData),
         });
-
+        console.log(response)
         const data = await response.json();
         if (data.success !== true) {
           console.error('Something went wrong, please try again');

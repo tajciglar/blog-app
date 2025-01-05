@@ -4,7 +4,7 @@ import Header from './Header';
 import '../styles/postPage.css';
 import DOMPurify  from 'dompurify'; // sanitazing content
 import { Editor } from "@tinymce/tinymce-react";
-
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // eslint-disable-next-line react/prop-types
 const PostPage = ({ isAdmin }) => {
 
@@ -30,11 +30,13 @@ const PostPage = ({ isAdmin }) => {
         checkLoginStatus(); 
     }, [id, slug]);
 
+
+    // GET POSTS
     const fetchPost = async (id, slug) => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`https://blog-app-7uxs.onrender.com/api/users/${id}/${slug}`, {
+            const response = await fetch(`${VITE_BACKEND_URL}/api/users/${id}/${slug}`, {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : '',  // Token only if available
                     'Content-Type': 'application/json',
@@ -63,11 +65,15 @@ const PostPage = ({ isAdmin }) => {
         }
     };
 
+
+    // CHECK IF USER IS LOGGED IN
     const checkLoginStatus = () => {
         const token = localStorage.getItem('token');
         setLoggedIn(!!token); 
     };
 
+
+    // POST A COMMENT
     const postComment = async (event) => {
         event.preventDefault();
 
@@ -80,7 +86,7 @@ const PostPage = ({ isAdmin }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`/api/users/${id}/${slug}`, {
+            const response = await fetch(`${VITE_BACKEND_URL}/api/users/${id}/${slug}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -137,7 +143,7 @@ const PostPage = ({ isAdmin }) => {
 
     const fetchApiKey = async () => {
         try {
-            const response = await fetch('/api/editor');
+            const response = await fetch(`${VITE_BACKEND_URL}/api/editor`);
             const data = await response.json();
             setApiKey(data.apiKey); 
         } catch (err) {
@@ -154,7 +160,7 @@ const PostPage = ({ isAdmin }) => {
     const saveEditedComment = async (commentId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`/api/users/${id}/${commentId}`, {
+            const response = await fetch(`${VITE_BACKEND_URL}/api/users/${id}/${commentId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -180,7 +186,8 @@ const PostPage = ({ isAdmin }) => {
         if((window.confirm('Are you sure you want to delete this comment?'))){
              try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`https://blog-app-7uxs.onrender.com/api/users/${id}/${commentId}`, {
+                
+                const response = await fetch(`${VITE_BACKEND_URL}/api/users/${id}/${commentId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,
