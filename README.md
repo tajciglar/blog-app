@@ -32,6 +32,7 @@ Admin Credentials:
 **Frontend**
   - React
   - Vite
+
 **Backend**
   - Node.js
   - Express.js
