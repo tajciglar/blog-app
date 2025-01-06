@@ -24,8 +24,8 @@ const LogInPage = () => {
         }
 
         try {
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-            const response = await fetch(`${BACKEND_URL}/api/users/login`, {
+            const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            const response = await fetch(`${VITE_BACKEND_URL}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

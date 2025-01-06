@@ -8,7 +8,7 @@ const NewPost = () => {
     const editorRef = useRef(null);
     const [apiKey, setApiKey] = useState(null);
     const navigate = useNavigate();
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +16,7 @@ const NewPost = () => {
             const content = editorRef.current.getContent();
             const title = event.target.title.value;
 
-            const response = await fetch(`${BACKEND_URL}/api/admin/newPost`, {
+            const response = await fetch(`${VITE_BACKEND_URL}/api/admin/newPost`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,7 +33,7 @@ const NewPost = () => {
 
     const fetchApiKey = async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}/api/editor`);
+            const response = await fetch(`${VITE_BACKEND_URL}/api/editor`);
             const data = await response.json();
             setApiKey(data.apiKey);
         } catch (err) {

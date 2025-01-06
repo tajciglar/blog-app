@@ -23,7 +23,6 @@ const PostPage = ({ isAdmin }) => {
     const [apiKey, setApiKey] = useState(null);
 
     const userId = localStorage.getItem('userId');
-
     useEffect(() => {
         
         fetchPost(id, slug);
@@ -120,8 +119,8 @@ const PostPage = ({ isAdmin }) => {
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('token');
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-            const response = await fetch(`${BACKEND_URL}/api/admin/edit/${id}`, {
+            
+            const response = await fetch(`${VITE_BACKEND_URL}/api/admin/edit/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
