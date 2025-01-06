@@ -284,17 +284,20 @@ const PostPage = ({ isAdmin }) => {
                                             <small>{new Date(comment.createdAt).toLocaleString()}</small>
                                                 {userId === comment.authorId && (
                                                 <>
-                                                    {editingCommentId === comment.id ? (
+                                                    <div className='edit-comment'>
+                                                        {editingCommentId === comment.id ? (
                                                         <>
                                                             <button onClick={() => saveEditedComment(comment.id)}>Save</button>
                                                             <button onClick={() => setEditingCommentId(null)}>Cancel</button>
                                                         </>
-                                                    ) : (
+                                                        ) : (
                                                         <>
                                                             <button onClick={() => handleEditComment(comment.id, comment.content)}>Edit</button>
                                                             <button onClick={() => deleteComment(comment.id)}>Delete</button>
                                                         </>
                                                     )}
+
+                                                    </div>
                                                 </>
                                             )}
                                         </li>
