@@ -1,18 +1,40 @@
-# blog-app
-Blog application from The Odin Project.
+# Blog Application 📝
 
-This project was created to learn CRUD functionalities aswell as refresh knowledge about JWT, Prisma and postgres.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/xyz/status)](https://tajsblogapp.netlify.app/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-The main functionlity of this app is that the blog can be viewed also when logged out. But you can only comment on blog posts when logged in. It also has a admin function that allows you to delete blogs and comments under the blogs.
+## Description
 
-Live demo:
-- FRONTEND: https://tajsblogapp.netlify.app/
-- BACKEND: https://blog-app-7uxs.onrender.com
+A blog application built as part of [The Odin Project](https://www.theodinproject.com/) curriculum to practice CRUD functionalities and refresh knowledge of:
 
+- JWT Authentication
+- Prisma ORM
+- PostgreSQL Database
 
-Seed the database for live demo with:
-- node seed.js
+**Features**:
+- View blog posts without logging in.
+- Comment on blog posts after logging in.
+- Admin functionality to delete blogs and comments.
+- Admin can post new blogs
 
-Admin credentials:
-- email: admin@example.com
-- password: admin123
+---
+
+## Live Demo
+
+- **Frontend**: [https://tajsblogapp.netlify.app/](https://tajsblogapp.netlify.app/)
+- **Backend**: [https://blog-app-7uxs.onrender.com](https://blog-app-7uxs.onrender.com)
+
+Admin Credentials: 
+- **Email**: admin@example.com
+- **Password** admin123
+
+## Tech Stack
+**Frontend**
+  - React
+  - Vite
+**Backend**
+  - Node.js
+  - Express.js
+  - Prisma ORM
+  - PostgreSQL
+  
