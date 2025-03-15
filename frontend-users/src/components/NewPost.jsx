@@ -6,40 +6,40 @@ import '../styles/newPostForm.css';
 
 const NewPost = () => {
     const editorRef = useRef(null);
-    const [apiKey, setApiKey] = useState(null); // State to store the API key
+    const [apiKey, setApiKey] = useState(null);
     const navigate = useNavigate();
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (editorRef.current) {
             const content = editorRef.current.getContent();
             const title = event.target.title.value;
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-            const response = await fetch(`${BACKEND_URL}/api/admin/newPost`, {
+
+            const response = await fetch(`${VITE_BACKEND_URL}/api/admin/newPost`, {
                 method: "POST",
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ title, content }),
-            })
-             if(response.ok) {
-                navigate('/admin');
-             }
+            });
+
+            if (response.ok) {
+                navigate("/admin");
+            }
         }
-       
     };
 
     const fetchApiKey = async () => {
         try {
-            const response = await fetch('https://blog-app-7uxs.onrender.com/api/editor');
+            const response = await fetch(`${VITE_BACKEND_URL}/api/editor`);
             const data = await response.json();
-            setApiKey(data.apiKey); 
+            setApiKey(data.apiKey);
         } catch (err) {
-            console.error('Error fetching API key:', err);
+            console.error("Error fetching API key:", err);
         }
     };
-
 
     useEffect(() => {
         fetchApiKey();

@@ -24,8 +24,8 @@ const LogInPage = () => {
         }
 
         try {
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-            const response = await fetch(`${BACKEND_URL}/api/users/login`, {
+            const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+            const response = await fetch(`${VITE_BACKEND_URL}/api/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const LogInPage = () => {
                 setError(data.message);
             }
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            setError('An error occurred. Please try again.', err);
         }
     };
 
@@ -89,7 +89,7 @@ const LogInPage = () => {
                     Don't have an account? Sign up <a href="/signup">here</a>
                 </p>
             </form>
-           
+           <p>Not yet signed up? Sign up <a href='/signup'>here</a></p>
         </div>
     );
 };

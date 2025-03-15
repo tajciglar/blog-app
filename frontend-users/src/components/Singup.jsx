@@ -43,7 +43,6 @@ const Signup = () => {
       setIsSubmitting(true);
       try {
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-        console.log(formData)
         const response = await fetch(`${BACKEND_URL}/api/users/signup`, {
           method: 'POST',
           headers: {
@@ -127,6 +126,7 @@ const Signup = () => {
           Already have an account? Log in <a href="/login">here</a>
         </p>
       </form>
+      <p>Already signed up? Log in <a href='/login'>here</a></p>
     </div>
   );
 };

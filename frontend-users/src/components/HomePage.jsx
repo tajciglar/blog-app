@@ -10,14 +10,14 @@ const HomePage = ({ isAdmin }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
         const fetchProfileAndPosts = async () => {
             const token = localStorage.getItem('token');
             
             try {
                 
-                const postsResponse = await fetch(`${BACKEND_URL}/api/users`, {
+                const postsResponse = await fetch(`${VITE_BACKEND_URL}/api/users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const HomePage = ({ isAdmin }) => {
                         return;
                     }
 
-                    const userResponse = await fetch(`${BACKEND_URL}/api/users`, {
+                    const userResponse = await fetch(`${VITE_BACKEND_URL}/api/users`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const HomePage = ({ isAdmin }) => {
     const handleDeletePost = async (postId) => {
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
-                const response = await fetch(`${BACKEND_URL}/api/admin/delete/${postId}`, {
+                const response = await fetch(`${VITE_BACKEND_URL}/api/admin/delete/${postId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
