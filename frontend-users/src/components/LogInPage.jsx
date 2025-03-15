@@ -61,7 +61,7 @@ const LogInPage = () => {
 
     return (
         <div className="landing-page">
-            <h1>Welcome to the Blog</h1>
+            <h1>Welcome to Taj's Blog</h1>
             <form onSubmit={handleLogin} className='login-form'>
                 {error && <p className="error">{error}</p>}
                 <div className="form-group">
@@ -84,8 +84,10 @@ const LogInPage = () => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
-                 <a href="/signup" id='createAcc'>Create account</a>
+                <button type="submit">Login</button><br />
+                <p>
+                    Don't have an account? Sign up <a href="/signup">here</a>
+                </p>
             </form>
            
         </div>

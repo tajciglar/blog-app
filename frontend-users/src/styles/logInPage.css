@@ -1,6 +1,7 @@
 .landing-page {
     display: flex;
     flex-direction: column;
+    width: 100%;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -18,13 +19,12 @@ h1 {
 
 
 .login-form {
-    max-width: 400px;
     margin: 0 auto;
     padding: 30px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    width: 30%;
 }
 
 .login-form h2 {
@@ -47,7 +47,7 @@ h1 {
 }
 
 .form-group input {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -86,7 +86,7 @@ a#createAcc:hover {
 }
 
 button {
-    width: 100%;
+    width: 40%;
     padding: 12px;
     background-color: #111;
     color: #fff;

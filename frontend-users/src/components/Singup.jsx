@@ -123,6 +123,9 @@ const Signup = () => {
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Sign Up'}
         </button>
+        <p>
+          Already have an account? Log in <a href="/login">here</a>
+        </p>
       </form>
     </div>
   );

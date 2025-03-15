@@ -17,6 +17,10 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .post-card h2 {
@@ -44,7 +48,6 @@ button {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
 }
 
 button:hover {
@@ -54,15 +57,37 @@ button:hover {
 button:focus {
     outline: none;
 }
-
-button#new-post {
+.new-post-container {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 90%;
+    transform: translateX(-50%);
     z-index: 10;
-    font-size: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 20%;
 }
+
+#new-post {
+    padding: 16px;
+    font-size: 24px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   
+}
+
+#new-post:hover {
+    background-color: #525252;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#new-post:focus {
+    outline: none;
+}
+
 
 h1 {
     text-align: center;

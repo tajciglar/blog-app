@@ -97,7 +97,7 @@ const PostPage = ({ isAdmin }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+        
                 setComments([...comments, {
                     id: data.commentData.id,
                     content: data.commentData.content,
@@ -269,7 +269,7 @@ const PostPage = ({ isAdmin }) => {
                                 <ul>
                                     {comments.map(comment => (
                                         <li key={comment.id}>
-                                            <div>
+                                            <div className='comment-content'>
                                                 <strong>{comment.author}: </strong>
                                                 {editingCommentId === comment.id ? (
                                                     <input
@@ -280,10 +280,10 @@ const PostPage = ({ isAdmin }) => {
                                                 ) : (
                                                     comment.content
                                                 )}
+                                                <small>{new Date(comment.createdAt).toLocaleString()}</small>
                                             </div>
-                                            <small>{new Date(comment.createdAt).toLocaleString()}</small>
                                                 {userId === comment.authorId && (
-                                                <>
+                                                <div className='comment-actions'>
                                                     {editingCommentId === comment.id ? (
                                                         <>
                                                             <button onClick={() => saveEditedComment(comment.id)}>Save</button>
@@ -295,7 +295,12 @@ const PostPage = ({ isAdmin }) => {
                                                             <button onClick={() => deleteComment(comment.id)}>Delete</button>
                                                         </>
                                                     )}
-                                                </>
+                                                </div>
+                                            )}
+                                            {isAdmin && userId !== comment.authorId && (
+                                                <div className="comment-actions">
+                                                    <button onClick={() => deleteComment(comment.id)}>Delete</button>
+                                                </div>
                                             )}
                                         </li>
                                     ))}
@@ -316,7 +321,9 @@ const PostPage = ({ isAdmin }) => {
                                         value={newComment} 
                                         required 
                                     />
-                                    <button type="submit">Submit</button>
+                                    <button type="submit" style={{ background: "none", border: "none", cursor: "pointer" }}>
+                                        <img src="/send.svg" height="30px" alt="Send" />
+                                    </button>
                                 </form>
                             ) : (
                                 <p>Please log in to leave a comment.</p>

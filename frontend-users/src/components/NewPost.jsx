@@ -2,6 +2,7 @@ import Header from "./Header";
 import { Editor } from "@tinymce/tinymce-react";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import '../styles/newPostForm.css';
 
 const NewPost = () => {
     const editorRef = useRef(null);
@@ -47,9 +48,13 @@ const NewPost = () => {
     return (
         <>
             <Header />
-            <form onSubmit={handleSubmit}>
+            <div className="new-post-form">
+                <form onSubmit={handleSubmit}>
                 <label>
-                    Add a title:
+                    <p>
+                        Add a title:
+                    </p>
+       
                     <input type="text" name="title" required />
                 </label>
                 {apiKey ? (
@@ -76,6 +81,7 @@ const NewPost = () => {
                 )}
                 <input type="submit" value="Submit" />
             </form>
+            </div>
         </>
     );
 };

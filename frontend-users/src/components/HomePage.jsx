@@ -124,14 +124,14 @@ const HomePage = ({ isAdmin }) => {
                     <p>Loading...</p>
                 ) : (
                     posts.length > 0 ? (
-                        posts.map((post, index) => (
+                        posts.map((post) => (
                             <div 
                                 key={post.id} 
                                 onClick={() => handlePostClick(post)} 
-                                className={`post-card ${index % 2 === 0 ? 'post-card-top' : 'post-card-bottom'}`}
+                                className={`post-card`}
                             >
                                 <h2>{post.title}</h2>
-                                <img src="/" alt="picture" />
+                                <img src="/" alt="picture placeholder " />
                                 {isAdmin && (
                                     <button 
                                         onClick={(e) => {
@@ -150,7 +150,10 @@ const HomePage = ({ isAdmin }) => {
                 )}
             </div>
             {isAdmin && (
-                <button id="new-post" onClick={handleNewPost}>NEW POST</button>
+                <div className="new-post-container">
+                     <button id="new-post" onClick={handleNewPost}>NEW POST</button>
+                </div>
+               
             )}
         </>
     );
