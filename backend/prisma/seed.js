@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
-import bcrypt from 'bcryptjs';
+const { PrismaClient } = require('@prisma/client');
+const { faker } = require('@faker-js/faker');
+const bcrypt = require('bcryptjs'); ;
 
 const prisma = new PrismaClient();
 
