@@ -19,8 +19,8 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Adjust methods as needed
-    credentials: true, // Allow credentials if needed
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true, 
 };
 
 app.use(cors(corsOptions)); 

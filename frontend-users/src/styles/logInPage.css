@@ -9,6 +9,13 @@
     padding: 20px;
 }
 
+.landing-page a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
 h1 {
     font-size: 2rem;
     color: #333;
