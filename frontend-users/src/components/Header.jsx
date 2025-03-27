@@ -52,6 +52,17 @@ const Header = () => {
                             </button>
                         </li>
                     ) : (
+                    {loggedIn ? (                
+                            <li className="nav-item">
+                                    {role === 'ADMIN' && (
+                                        <a className="blog-button" href="/admin">Admin</a>
+                                    )}
+                                    <a className="blog-button" href="/">Blogs</a>
+                                    <button className="logout-button" onClick={handleLogout}>
+                                        Logout
+                                    </button>
+                            </li>
+                    ) : (
                         <button className="login-button" onClick={handleLogin}>
                             Log in
                         </button>
@@ -59,6 +70,7 @@ const Header = () => {
                 </ul>
             </nav>
         </header>
+
     );
 };
 
