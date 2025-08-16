@@ -126,7 +126,6 @@ const Signup = () => {
           Already have an account? Log in <a href="/login">here</a>
         </p>
       </form>
-      <p>Already signed up? Log in <a href='/login'>here</a></p>
     </div>
   );
 };
